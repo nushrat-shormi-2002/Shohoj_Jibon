@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.threelegend.shohojjibon.controller.BloodBankController"
+            style="-fx-background-color: #f5f7fa;">
+    
+    <!-- Top Bar -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #dc2626, #991b1b); -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="Shohoj Jibon - Blood Bank Dashboard" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Label fx:id="welcomeLabel" text="Welcome!" style="-fx-text-fill: white; -fx-font-size: 16px;" HBox.hgrow="ALWAYS"/>
+                <Button text="Logout" onAction="#handleLogout" 
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Main Content with Tabs -->
+    <center>
+        <TabPane style="-fx-padding: 20;" tabClosingPolicy="UNAVAILABLE">
+            
+            <!-- Overview Tab -->
+            <Tab text="📊 Overview">
+                <VBox spacing="20" style="-fx-padding: 20;">
+                    <!-- Stats Cards -->
+                    <HBox spacing="20">
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="🩸 Total Donors" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                            <Label fx:id="totalDonorsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #dc2626;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="✓ Available Now" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                            <Label fx:id="availableDonorsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="📈 Total Donations" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                            <Label fx:id="totalDonationsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <!-- Blood Bank Info -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="Blood Bank Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                        <Label fx:id="bloodBankInfoLabel" text="Loading..." style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                    </VBox>
+                    
+                    <!-- Blood Group Statistics -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="Available Donors by Blood Group" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                        <GridPane hgap="15" vgap="10" fx:id="bloodGroupGrid">
+                        </GridPane>
+                    </VBox>
+                    
+                    <!-- Quick Actions -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="Quick Actions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                        <HBox spacing="15">
+                            <Button text="➕ Register Donor" onAction="#handleAddDonor" 
+                                    style="-fx-background-color: #dc2626; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                            <Button text="🔄 Refresh Data" onAction="#handleRefreshData" 
+                                    style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </Tab>
+            
+            <!-- Manage Donors Tab -->
+            <Tab text="🩸 Manage Donors">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Blood Donor Registry" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" HBox.hgrow="ALWAYS"/>
+                        <Button text="➕ Register Donor" onAction="#handleAddDonor" 
+                                style="-fx-background-color: #dc2626; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        <Button text="🔄 Refresh" onAction="#handleRefreshDonors" 
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    </HBox>
+                    
+                    <TableView fx:id="donorTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="donorNameCol" text="Donor Name" prefWidth="180"/>
+                            <TableColumn fx:id="bloodGroupCol" text="Blood Group" prefWidth="100"/>
+                            <TableColumn fx:id="ageCol" text="Age" prefWidth="60"/>
+                            <TableColumn fx:id="genderCol" text="Gender" prefWidth="80"/>
+                            <TableColumn fx:id="contactCol" text="Contact" prefWidth="120"/>
+                            <TableColumn fx:id="locationCol" text="Location" prefWidth="150"/>
+                            <TableColumn fx:id="lastDonationCol" text="Last Donation" prefWidth="120"/>
+                            <TableColumn fx:id="eligibilityCol" text="Eligibility" prefWidth="150"/>
+                            <TableColumn fx:id="statusCol" text="Status" prefWidth="100"/>
+                            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- Blood Request Management Tab -->
+            <Tab text="📋 Manage Requests">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Blood Donation Requests" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" HBox.hgrow="ALWAYS"/>
+                        <Button text="🔄 Refresh" onAction="#handleRefreshRequests" 
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    </HBox>
+                    
+                    <!-- Request Statistics -->
+                    <HBox spacing="20">
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="📊 Total Requests" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="totalRequestsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="⏳ Pending" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="pendingRequestsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="✅ Approved" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="approvedRequestsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="🎉 Completed" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="completedRequestsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #059669;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <TableView fx:id="requestTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="requestIdCol" text="ID" prefWidth="60"/>
+                            <TableColumn fx:id="requesterNameCol" text="Requester" prefWidth="150"/>
+                            <TableColumn fx:id="patientNameCol" text="Patient" prefWidth="150"/>
+                            <TableColumn fx:id="requestBloodGroupCol" text="Blood Group" prefWidth="100"/>
+                            <TableColumn fx:id="urgencyCol" text="Urgency" prefWidth="100"/>
+                            <TableColumn fx:id="requestContactCol" text="Contact" prefWidth="120"/>
+                            <TableColumn fx:id="requestLocationCol" text="Location" prefWidth="150"/>
+                            <TableColumn fx:id="requestDateCol" text="Request Date" prefWidth="120"/>
+                            <TableColumn fx:id="requestStatusCol" text="Status" prefWidth="100"/>
+                            <TableColumn fx:id="requestActionsCol" text="Actions" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+    
+    <!-- Footer -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #dc2626; -fx-padding: 10;">
+            <Label text="© 2025 Shohoj Jibon - Saving Lives Together | Developed by Three_Legend" style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.threelegend.shohojjibon.controller.HotelProviderController"
+            style="-fx-background-color: #f5f7fa;">
+    
+    <!-- Top Bar -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #f59e0b, #d97706); -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="Shohoj Jibon - Hotel Dashboard" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Label fx:id="welcomeLabel" text="Welcome!" style="-fx-text-fill: white; -fx-font-size: 16px;" HBox.hgrow="ALWAYS"/>
+                <Button text="Logout" onAction="#handleLogout" 
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Main Content with Tabs -->
+    <center>
+        <TabPane style="-fx-padding: 20;" tabClosingPolicy="UNAVAILABLE">
+            
+            <!-- Overview Tab -->
+            <Tab text="📊 Overview">
+                <VBox spacing="20" style="-fx-padding: 20;">
+                    <!-- Stats Cards -->
+                    <HBox spacing="20">
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="🏨 Total Room Types" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                            <Label fx:id="totalRoomsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="✓ Available Rooms" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                            <Label fx:id="availableRoomsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <Label text="💰 Total Revenue" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                            <Label fx:id="totalRevenueLabel" text="৳0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <!-- Hotel Info -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="Hotel Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                        <Label fx:id="hotelInfoLabel" text="Loading..." style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                    </VBox>
+                    
+                    <!-- Quick Actions -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <Label text="Quick Actions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                        <HBox spacing="15">
+                            <Button text="➕ Add Room Type" onAction="#handleAddRoom" 
+                                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                            <Button text="🔄 Refresh Data" onAction="#handleRefreshData" 
+                                    style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </Tab>
+            
+            <!-- Manage Rooms Tab -->
+            <Tab text="🏨 Manage Rooms">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Your Room Types" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" HBox.hgrow="ALWAYS"/>
+                        <Button text="➕ Add Room Type" onAction="#handleAddRoom" 
+                                style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        <Button text="🔄 Refresh" onAction="#handleRefreshRooms" 
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    </HBox>
+                    
+                    <TableView fx:id="roomTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="roomTypeCol" text="Room Type" prefWidth="150"/>
+                            <TableColumn fx:id="priceCol" text="Price/Night" prefWidth="120"/>
+                            <TableColumn fx:id="roomsCol" text="Total Rooms" prefWidth="100"/>
+                            <TableColumn fx:id="availableCol" text="Available" prefWidth="100"/>
+                            <TableColumn fx:id="sizeCol" text="Room Size" prefWidth="120"/>
+                            <TableColumn fx:id="occupancyCol" text="Max Guests" prefWidth="100"/>
+                            <TableColumn fx:id="amenitiesCol" text="Amenities" prefWidth="200"/>
+                            <TableColumn fx:id="statusCol" text="Status" prefWidth="80"/>
+                            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- Bookings Tab -->
+            <Tab text="📋 Manage Bookings">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Room Bookings" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" HBox.hgrow="ALWAYS"/>
+                        <Button text="🔄 Refresh" onAction="#handleRefreshBookings" 
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    </HBox>
+                    
+                    <!-- Booking Statistics -->
+                    <HBox spacing="20">
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" HBox.hgrow="ALWAYS">
+                            <Label text="📊 Total Bookings" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="totalBookingsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" HBox.hgrow="ALWAYS">
+                            <Label text="⏳ Pending" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="pendingBookingsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" HBox.hgrow="ALWAYS">
+                            <Label text="✅ Confirmed" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="confirmedBookingsLabel" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        </VBox>
+                        
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" HBox.hgrow="ALWAYS">
+                            <Label text="💰 Revenue" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                            <Label fx:id="bookingRevenueLabel" text="৳0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #059669;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <!-- Bookings Table -->
+                    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="bookingIdCol" text="Booking ID" prefWidth="80"/>
+                            <TableColumn fx:id="guestNameCol" text="Guest Name" prefWidth="150"/>
+                            <TableColumn fx:id="bookingRoomTypeCol" text="Room Type" prefWidth="120"/>
+                            <TableColumn fx:id="checkInDateCol" text="Check-in" prefWidth="100"/>
+                            <TableColumn fx:id="checkOutDateCol" text="Check-out" prefWidth="100"/>
+                            <TableColumn fx:id="guestsCol" text="Guests" prefWidth="60"/>
+                            <TableColumn fx:id="totalAmountCol" text="Amount" prefWidth="100"/>
+                            <TableColumn fx:id="bookingStatusCol" text="Status" prefWidth="80"/>
+                            <TableColumn fx:id="bookingActionsCol" text="Actions" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+    
+    <!-- Footer -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #f59e0b; -fx-padding: 10;">
+            <Label text="© 2025 Shohoj Jibon - Developed by Three_Legend" style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+
