@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.threelegend.shohojjibon.controller.UserDashboardController"
+            style="-fx-background-color: #f5f7fa;">
+    
+    <!-- Top Bar -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #3b82f6, #1e40af); -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="🏠 Shohoj Jibon - Your Life, Simplified" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                <Label fx:id="welcomeLabel" text="Welcome!" style="-fx-text-fill: white; -fx-font-size: 16px;" HBox.hgrow="ALWAYS"/>
+                <Button text="Logout" onAction="#handleLogout" 
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Main Content with Service Tabs -->
+    <center>
+        <TabPane style="-fx-padding: 20;" tabClosingPolicy="UNAVAILABLE">
+            
+            <!-- TRANSPORT TAB -->
+            <Tab text="🚌 Transport">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Find Your Bus" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                    </HBox>
+                    
+                    <!-- Search Filters -->
+                    <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="From:" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="busFromField" promptText="Start location" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="To:" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="busToField" promptText="End location" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔍 Search Buses" onAction="#handleSearchBuses" 
+                                    style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔄 Show All" onAction="#handleShowAllBuses" 
+                                    style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <TableView fx:id="busTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="busNameCol" text="Bus Name" prefWidth="150"/>
+                            <TableColumn fx:id="busNumberCol" text="Bus Number" prefWidth="100"/>
+                            <TableColumn fx:id="busRouteCol" text="Route" prefWidth="250"/>
+                            <TableColumn fx:id="busScheduleCol" text="Schedule" prefWidth="120"/>
+                            <TableColumn fx:id="busFareCol" text="Max Fare" prefWidth="100"/>
+                            <TableColumn fx:id="busProviderCol" text="Provider" prefWidth="150"/>
+                            <TableColumn fx:id="busActionsCol" text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- DOCTORS TAB -->
+            <Tab text="👨‍⚕️ Doctors">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Find a Doctor" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                    </HBox>
+                    
+                    <!-- Search Filters -->
+                    <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Doctor Name:" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="doctorNameField" promptText="Search by name" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Specialty:" style="-fx-font-weight: bold;"/>
+                            <ComboBox fx:id="specialtyCombo" promptText="Select Specialty" prefWidth="200"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Location:" style="-fx-font-weight: bold;"/>
+                            <ComboBox fx:id="doctorLocationCombo" promptText="Select Location" prefWidth="200"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔍 Search" onAction="#handleSearchDoctors" 
+                                    style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔄 Show All" onAction="#handleShowAllDoctors" 
+                                    style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <TableView fx:id="doctorTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="doctorNameCol" text="Doctor Name" prefWidth="180"/>
+                            <TableColumn fx:id="doctorSpecialtyCol" text="Specialty" prefWidth="150"/>
+                            <TableColumn fx:id="doctorLocationCol" text="Location" prefWidth="150"/>
+                            <TableColumn fx:id="doctorFeeCol" text="Consultation Fee" prefWidth="120"/>
+                            <TableColumn fx:id="doctorAvailableCol" text="Available Days" prefWidth="150"/>
+                            <TableColumn fx:id="doctorContactCol" text="Contact" prefWidth="120"/>
+                            <TableColumn fx:id="doctorActionsCol" text="Actions" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- DIAGNOSTIC TESTS TAB -->
+            <Tab text="🧪 Diagnostic Tests">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Find Diagnostic Tests" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                    </HBox>
+                    
+                    <!-- Search Filters -->
+                    <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Test Name:" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="testNameField" promptText="Search by test name" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Category:" style="-fx-font-weight: bold;"/>
+                            <ComboBox fx:id="testCategoryCombo" promptText="Select Category" prefWidth="200"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Location:" style="-fx-font-weight: bold;"/>
+                            <ComboBox fx:id="testLocationCombo" promptText="Select Location" prefWidth="200"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔍 Search" onAction="#handleSearchTests" 
+                                    style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔄 Show All" onAction="#handleShowAllTests" 
+                                    style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <TableView fx:id="testTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="testNameCol" text="Test Name" prefWidth="200"/>
+                            <TableColumn fx:id="testCategoryCol" text="Category" prefWidth="150"/>
+                            <TableColumn fx:id="testLocationCol" text="Location" prefWidth="150"/>
+                            <TableColumn fx:id="testPriceCol" text="Price" prefWidth="100"/>
+                            <TableColumn fx:id="testResultTimeCol" text="Result Time" prefWidth="120"/>
+                            <TableColumn fx:id="testHomeCollectionCol" text="Home Collection" prefWidth="120"/>
+                            <TableColumn fx:id="testActionsCol" text="Actions" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- HOTELS TAB -->
+            <Tab text="🏨 Hotels">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Find Accommodation" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+                    </HBox>
+                    
+                    <!-- Search Filters -->
+                    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                        <!-- First Row: Name and Location -->
+                        <HBox spacing="15">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Hotel Name:" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="hotelNameField" promptText="Search by hotel name" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Location:" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="hotelLocationField" promptText="Search by location" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Second Row: Room Type and Sort -->
+                        <HBox spacing="15">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Room Type:" style="-fx-font-weight: bold;"/>
+                                <ComboBox fx:id="roomTypeCombo" promptText="Select Room Type" prefWidth="200"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Sort By:" style="-fx-font-weight: bold;"/>
+                                <ComboBox fx:id="sortByCombo" promptText="Sort options" prefWidth="200"/>
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Third Row: Search Buttons -->
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Button text="🔍 Search Hotels" onAction="#handleSearchHotels" 
+                                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                            <Button text="🔄 Show All" onAction="#handleShowAllHotels" 
+                                    style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </HBox>
+                    </VBox>
+                    
+                    <TableView fx:id="hotelTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="hotelNameCol" text="Hotel Name" prefWidth="180"/>
+                            <TableColumn fx:id="hotelLocationCol" text="Location" prefWidth="150"/>
+                            <TableColumn fx:id="hotelRoomTypeCol" text="Room Type" prefWidth="120"/>
+                            <TableColumn fx:id="hotelPriceCol" text="Price/Night" prefWidth="100"/>
+                            <TableColumn fx:id="hotelAvailableRoomsCol" text="Available Rooms" prefWidth="120"/>
+                            <TableColumn fx:id="hotelRatingCol" text="Rating" prefWidth="80"/>
+                            <TableColumn fx:id="hotelActionsCol" text="Actions" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- BLOOD DONORS TAB -->
+            <Tab text="🩸 Blood Donors">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="Emergency Blood Search" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #dc2626;"/>
+                    </HBox>
+                    
+                    <!-- Critical Notice -->
+                    <HBox spacing="10" style="-fx-background-color: #fee2e2; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dc2626; -fx-border-width: 2; -fx-border-radius: 8;">
+                        <Label text="⚠️" style="-fx-font-size: 24px;"/>
+                        <Label text="For Emergency Use Only - Always verify donor eligibility and conduct proper medical screening before blood donation." 
+                               style="-fx-text-fill: #991b1b; -fx-font-weight: bold; -fx-wrap-text: true;"/>
+                    </HBox>
+                    
+                    <!-- Search Filters -->
+                    <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Blood Group *:" style="-fx-font-weight: bold; -fx-text-fill: #dc2626;"/>
+                            <ComboBox fx:id="bloodGroupCombo" promptText="Select Blood Group" prefWidth="200"/>
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Location:" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="bloodDonorLocationField" promptText="Search by location" style="-fx-text-fill: #333; -fx-prompt-text-fill: #999;"/>
+                        </VBox>
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <Button text="🔍 Search Donors" onAction="#handleSearchBloodDonors" 
+                                    style="-fx-background-color: #dc2626; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                        </VBox>
+                    </HBox>
+                    
+                    <TableView fx:id="bloodDonorTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="donorNameCol" text="Donor Name" prefWidth="150"/>
+                            <TableColumn fx:id="donorBloodGroupCol" text="Blood Group" prefWidth="100"/>
+                            <TableColumn fx:id="donorAgeCol" text="Age" prefWidth="60"/>
+                            <TableColumn fx:id="donorLocationCol" text="Location" prefWidth="150"/>
+                            <TableColumn fx:id="donorContactCol" text="Contact" prefWidth="120"/>
+                            <TableColumn fx:id="donorEligibilityCol" text="Eligibility" prefWidth="150"/>
+                            <TableColumn fx:id="donorBloodBankCol" text="Blood Bank" prefWidth="150"/>
+                            <TableColumn fx:id="donorActionsCol" text="Actions" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+            
+            <!-- MY BOOKINGS TAB -->
+            <Tab text="📋 My Bookings">
+                <VBox spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label text="My Bookings" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" HBox.hgrow="ALWAYS"/>
+                        <Button text="🔄 Refresh" onAction="#handleRefreshBookings" 
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    </HBox>
+                    
+                    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 6;">
+                        <columns>
+                            <TableColumn fx:id="bookingIdCol" text="Booking ID" prefWidth="100"/>
+                            <TableColumn fx:id="bookingServiceCol" text="Service Type" prefWidth="120"/>
+                            <TableColumn fx:id="bookingDetailsCol" text="Details" prefWidth="300"/>
+                            <TableColumn fx:id="bookingDateCol" text="Booking Date" prefWidth="150"/>
+                            <TableColumn fx:id="bookingStatusCol" text="Status" prefWidth="120"/>
+                            <TableColumn fx:id="bookingActionsCol" text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+    
+    <!-- Footer -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #1e40af; -fx-padding: 10;">
+            <Label text="© 2025 Shohoj Jibon - Makes Your Life Easier | All Services in One Place | Developed by Three_Legend" 
+                   style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+
